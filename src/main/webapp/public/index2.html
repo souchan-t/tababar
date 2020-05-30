@@ -1,0 +1,93 @@
+<html>
+<head>
+    <script src="/public/javascript/jquery-3.4.1.min.js" ></script>
+</head>
+<body>
+
+<p>ログイン</p><br>
+<form method="post" action="/login">
+    <p>E-mail</p><input type="text" name="email"/><br>
+    <p>Password</p><input type="password" name="password"/><br>
+    <input type="submit"/>
+</form>
+
+<p>ユーザ登録</p><br>
+<form method="post" action="/signup">
+    <p>Name</p><input type="text" name="name"/><br>
+    <p>E-mail</p><input type="text" name="email"/><br>
+    <p>Password</p><input type="password" name="password"/><br>
+    <input type="submit"/>
+</form>
+
+<p>ログアウト</p><br>
+<a href="/logout" >ログアウト</a>
+
+<p>ユーザ情報参照</p>
+<input type="text" maxlength="32" id="userid"><br>
+<input type="button" id="execUserInfo" name="実行">
+
+<script language="javascript">
+    $('#execUserInfo').on('click',() => {
+        const id = $('#userid').val();
+        $.get(`/users/${id}`)
+        .done((data)=>alert(data.name));
+    });
+
+</script>
+
+<p>トレニーング作成</p>
+<p>name</p><input type="text" id="trainingName"><br>
+<p>startDate</p><input type="text" id="trainingStartDate"><br>
+<p>endDate</p><input type="text" id="trainingEndDate"><br>
+<p>location</p><input type="text" id="trainingLocation"><br>
+<p>maxTrainees</p><input type="text" id="trainingMaxTrainees"><br>
+<p>minTrainees</p><input type="text" id="trainingMinTrainees"><br>
+<p>describe</p><input type="text" id="trainingDescribe"><br>
+<input type="button" value="作成" id="trainingExec">
+<script>
+    $('#trainingExec').on('click',() => {
+        const sendData = {
+            name:$('#trainingName').val(),
+            startDate:new Date($('#trainingStartDate').val()).getTime(),
+            endDate:new Date($('#trainingEndDate').val()).getTime(),
+            location:$('#trainingLocation').val(),
+            maxTrainees:Number.parseInt($('#trainingMaxTrainees').val()),
+            minTrainees:Number.parseInt($('#trainingMinTrainees').val()),
+            describe:$('#trainingDescribe').val()
+        };
+
+        $.ajax({
+            type:'post',
+            url : '/training',
+            data : JSON.stringify(sendData),
+            contentType : 'application/json',
+            dataType : 'JSON',
+            scriptCharset : 'UTF8',
+            success : function(data){console.log(data);}
+
+        });
+    });
+</script>
+<p>トレーニング予約</p>
+<p>予約トレーニング</p><input type="text" id="reservationTrainingId">
+<input type="button" id="reservationTraining" value="予約">
+<script>
+    $('#reservationTraining').on('click',() => {
+        const id = $('#reservationTrainingId').val();
+        const sendData = {
+            trainingId:id
+        };
+        $.ajax({
+            type:'post',
+            url : '/reservation',
+            data: JSON.stringify(sendData),
+            contentType: 'application/json',
+            dataType: 'JSON',
+            scriptCharset : 'UTF8',
+            success : function(data){console.log(data);}
+        });
+    });
+</script>
+
+</body>
+</html>

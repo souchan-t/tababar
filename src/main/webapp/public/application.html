@@ -1,0 +1,57 @@
+<meta http-equiv="content-type" charset="utf-8">
+<html>
+
+<head>
+</head>
+
+<body>
+    <div id="app">
+        <el-container>
+            <!-- ヘッダー部分-->
+            <el-header>
+                <h1>{{ application_name }}</h1>
+            </el-header>
+
+            <!-- サイドメニュー -->
+            <el-container>
+                <el-aside width="20%">
+                    <el-menu>
+                        <el-menu-item @click="showContent" index="0">
+                            <i class="el-icon-search"></i>トレーニングを探す
+                        </el-menu-item>
+                        <el-menu-item @click="showContent" index="1">
+                            <i class="el-icon-plus"></i>トレーニングを作る
+                        </el-menu-item>
+                        <el-menu-item @click="showContent" index="2">
+                            <i class="el-icon-user"></i>マイトレーニング
+                        </el-menu-item>
+                        <el-menu-item @click="showContent" index="3">
+                            <i class="el-icon-date"></i>カレンダー
+                        </el-menu-item>
+                        <el-menu-item @click="menuLogout_onClick">
+                            <i class="el-icon-turn-off"></i>ログアウト
+                        </el-menu-item>
+                    </el-menu>
+                </el-aside>
+
+                <!-- メインパネル -->
+                <el-main>
+                    <!-- 検索 -->
+                    <my-searchview v-show="menuShow.search"></my-searchview>
+
+                    <!-- トレーニングを作る-->
+                    <my-maketraining v-show="menuShow.make"></my-maketraining>
+
+                    <!-- マイトレイニーング -->
+                    <my-training v-show="menuShow.mytraining"></my-training>
+
+                    <!-- カレンダー -->
+                    <my-calendar v-show="menuShow.calendar"></my-calendar>
+                </el-main>
+            </el-container>
+        </el-container>
+    </div>
+    <script src="bundle.js"></script>
+</body>
+
+</html>
